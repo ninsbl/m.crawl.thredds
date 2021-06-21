@@ -137,7 +137,7 @@ def get_authentication(authentication_input):
             os.environ.get("THREDDS_PASSWORD"),
         )
 
-    if authentication_input is not None and authentication_input != "":
+    if authentication_input is not None and authentication_input != '':
 
         if authentication_input == "-":
             # stdin
@@ -158,8 +158,19 @@ def get_authentication(authentication_input):
 
 def parse_isotime(options_dict, time_key):
     """Parse user provided timestamp string into datetime object"""
+    # lazy import thredds_crawler
+    try:
+        from thredds_crawler.crawl import Crawl
+    except ImportError:
+        gscript.fatal(
+            _(
+                "Unable to import Python library: thredds_crawler.\n"
+                "Please make sure it is installed (pip install thredds_crawler).",
+            )
+        )
+
     timestamp = None
-    if options_dict[time_key] is not None and options_dict[time_key] != "":
+    if options_dict[time_key] is not None and options_dict[time_key] != '':
         time_string = options_dict[time_key].replace("Z", "+0000")
         time_format = "%Y-%m-%d"
         if "T" in time_string:
@@ -290,18 +301,6 @@ def main():
 
 
 if __name__ == "__main__":
-
-    # lazy import thredds_crawler
-    try:
-        from thredds_crawler.crawl import Crawl
-    except ImportError:
-        gscript.fatal(
-            _(
-                "Unable to import Python library: thredds_crawler.\n",
-                "Please make sure it is installed (pip install thredds_crawler).",
-            )
-        )
-
     # Parse options and flags
     options, flags = gscript.parser()
     sys.exit(main())
