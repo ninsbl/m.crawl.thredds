@@ -1,6 +1,6 @@
 MODULE_TOPDIR = ../..
 
-PGM=r.example.plus
+PGM=m.crawl.thredds
 
 include $(MODULE_TOPDIR)/include/Make/Script.make
 
