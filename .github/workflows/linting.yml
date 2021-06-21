@@ -1,46 +1,36 @@
-name: General linting
+name: Python Flake8 Code Quality
 
 on:
   - push
   - pull_request
 
 jobs:
-  super-linter:
-    name: GitHub Super Linter
-
-    runs-on: ubuntu-latest
+  flake8:
+    name: ${{ matrix.directory }}
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        directory:
+          - .
+          - gui/wxpython
+          - python/grass
+          - scripts
+          - temporal
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v2
-      - name: Lint code base
-        uses: docker://github/super-linter:v2.2.2
-        env:
-          # Listed but disabled linters would be nice to have.
-          # Python (supported using Pylint) and C/C++ (not supported) are
-          # handled separately due to the complexity of the settings.
-          # (The rest is simply disabled automatically as of v2.)
-          VALIDATE_BASH: false
-          VALIDATE_CSS: false
-          VALIDATE_DOCKER: false
-          VALIDATE_JAVASCRIPT_ES: true
-          VALIDATE_JAVASCRIPT_STANDARD: false
-          VALIDATE_JSON: true
-          VALIDATE_MD: false
-          VALIDATE_PERL: true
-          VALIDATE_POWERSHELL: true
-          VALIDATE_XML: true
-          VALIDATE_YAML: true
 
-    © 2021 GitHub, Inc.
-    Terms
-    Privacy
-    Security
-    Status
-    Docs
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
 
-    Contact GitHub
-    Pricing
-    API
-    Training
-    Blog
-    About
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8==3.8.4
+      - name: Run Flake8
+        run: |
+          cd ${{ matrix.directory }}
+          flake8 --count --statistics --show-source --jobs=$(nproc) .
