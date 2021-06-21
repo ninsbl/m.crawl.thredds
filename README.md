@@ -7,22 +7,6 @@
 [![Black code style check](https://github.com/wenzeslaus/r.example.plus/workflows/Black%20code%20style%20check/badge.svg)](https://github.com/wenzeslaus/r.example.plus/actions?query=workflow%3A%22Black%20code%20style%20check%22)
 [![Deploy online documentation](https://github.com/wenzeslaus/r.example.plus/workflows/Deploy%20online%20documentation/badge.svg)](https://github.com/wenzeslaus/r.example.plus/actions?query=workflow%3A%22Deploy%20online%20documentation%22)
 
-### Start by using this as a template
-
-GitHub has a mechanism how to use this repository as a template:
-
-* On GitHub, press *Use this template*.
-* Name the project and provide other repository info.
-* Clone the project using Git.
-
-### Start by Get the copy
-
-Alternatively, e.g., when not using GitHub, you can get the files in
-a standard way:
-
-* Just download the files as ZIP or clone the repository using Git.
-* Copy them to your new project directory.
-
 ### Getting the GitHub Actions work
 
 If you have the repository on GitHub, you can also reuse the GitHub
