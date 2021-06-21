@@ -12,13 +12,13 @@
 <hr class="header">
 
 <h2>NAME</h2>
-<em><b>m.crawl.thredds</b></em>  - List dataset urls from a thredds server (TDS).
+<em><b>m.crawl.thredds</b></em>  - List dataset urls from a Thredds Data Server (TDS) catalog.
 <h2>KEYWORDS</h2>
 <a href="file:///usr/lib/grass78/docs/html/temporal.html">temporal</a>, <a href="file:///usr/lib/grass78/docs/html/topic_import.html">import</a>, <a href="file:///usr/lib/grass78/docs/html/keywords.html#download">download</a>, <a href="file:///usr/lib/grass78/docs/html/keywords.html#data">data</a>, <a href="file:///usr/lib/grass78/docs/html/keywords.html#metadata">metadata</a>, <a href="file:///usr/lib/grass78/docs/html/keywords.html#netcdf">netcdf</a>, <a href="file:///usr/lib/grass78/docs/html/keywords.html#thredds">thredds</a>, <a href="file:///usr/lib/grass78/docs/html/keywords.html#opendap">opendap</a>
 <h2>SYNOPSIS</h2>
 <div id="name"><b>m.crawl.thredds</b><br></div>
 <b>m.crawl.thredds --help</b><br>
-<div id="synopsis"><b>m.crawl.thredds</b> <b>input</b>=<em>string</em>  [<b>print</b>=<em>string</em>[,<i>string</i>,...]]  <b>services</b>=<em>string</em>[,<i>string</i>,...]  [<b>filter</b>=<em>string</em>]   [<b>output</b>=<em>name</em>]   [<b>separator</b>=<em>character</em>]   [<b>modified_before</b>=<em>string</em>]   [<b>modified_after</b>=<em>string</em>]   [<b>authentication</b>=<em>File with authentication information (username and password) for thredds server</em>]   [<b>nprocs</b>=<em>Number of cores</em>]   [--<b>overwrite</b>]  [--<b>help</b>]  [--<b>verbose</b>]  [--<b>quiet</b>]  [--<b>ui</b>] 
+<div id="synopsis"><b>m.crawl.thredds</b> <b>input</b>=<em>string</em>  [<b>print</b>=<em>string</em>[,<i>string</i>,...]]  <b>services</b>=<em>string</em>[,<i>string</i>,...]  [<b>filter</b>=<em>string</em>]   [<b>output</b>=<em>name</em>]   [<b>separator</b>=<em>character</em>]   [<b>modified_before</b>=<em>string</em>]   [<b>modified_after</b>=<em>string</em>]   [<b>authentication</b>=<em>name</em>]   [<b>nprocs</b>=<em>Number of cores</em>]   [--<b>overwrite</b>]  [--<b>help</b>]  [--<b>verbose</b>]  [--<b>quiet</b>]  [--<b>ui</b>] 
 </div>
 
 <div id="flags">
@@ -42,7 +42,6 @@
 <dl>
 <dt><b>input</b>=<em>string</em>&nbsp;<b>[required]</b></dt>
 <dd>URL of a catalog on a thredds server</dd>
-<dd>URL of a catalog on a thredds server</dd>
 
 <dt><b>print</b>=<em>string[,<i>string</i>,...]</em></dt>
 <dd>Additional information to print</dd>
@@ -50,11 +49,10 @@
 
 <dt><b>services</b>=<em>string[,<i>string</i>,...]</em>&nbsp;<b>[required]</b></dt>
 <dd>Services of thredds server to crawl</dd>
-<dd>Comma separated list of services names (lower case) of thredds server to crawl, typical services are: httpserver, netcdfsubset' opendap, wms</dd>
+<dd>Comma separated list of services names (lower case) of thredds server to crawl, typical services are: httpserver, netcdfsubset, opendap, wms</dd>
 <dd>Default: <em>httpserver</em></dd>
 
 <dt><b>filter</b>=<em>string</em></dt>
-<dd>Regular expression for filtering dataset and catalog URLs</dd>
 <dd>Regular expression for filtering dataset and catalog URLs</dd>
 <dd>Default: <em>.*</em></dd>
 
@@ -75,9 +73,9 @@
 <dd>Earliest modification timestamp of datasets to include in the output</dd>
 <dd>ISO-formated date or timestamp (e.g. "2000-01-01T12:12:55.03456Z" or "2000-01-01")</dd>
 
-<dt><b>authentication</b>=<em>File with authentication information (username and password) for thredds server</em></dt>
+<dt><b>authentication</b>=<em>name</em></dt>
 <dd>Authentication for thredds server</dd>
-<dd>Name of input file</dd>
+<dd>File with authentication information (username and password) for thredds server</dd>
 
 <dt><b>nprocs</b>=<em>Number of cores</em></dt>
 <dd>Number of cores to use for crawling thredds server</dd>
