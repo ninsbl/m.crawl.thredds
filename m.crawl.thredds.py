@@ -137,7 +137,7 @@ def get_authentication(authentication_input):
             os.environ.get("THREDDS_PASSWORD"),
         )
 
-    if authentication_input is not None and authentication_input != '':
+    if authentication_input is not None and authentication_input != "":
 
         if authentication_input == "-":
             # stdin
@@ -159,7 +159,7 @@ def get_authentication(authentication_input):
 def parse_isotime(options_dict, time_key):
     """Parse user provided timestamp string into datetime object"""
     timestamp = None
-    if options_dict[time_key] is not None and options_dict[time_key] != '':
+    if options_dict[time_key] is not None and options_dict[time_key] != "":
         time_string = options_dict[time_key].replace("Z", "+0000")
         time_format = "%Y-%m-%d"
         if "T" in time_string:
