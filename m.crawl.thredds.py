@@ -135,7 +135,7 @@ def get_authentication(authentication_input):
             os.environ.get("THREDDS_PASSWORD"),
         )
 
-    if authentication_input is not None and authentication_input != '':
+    if authentication_input is not None and authentication_input != "":
 
         if authentication_input == "-":
             # stdin
@@ -157,7 +157,7 @@ def get_authentication(authentication_input):
 def parse_isotime(options_dict, time_key):
     """Parse user provided timestamp string into datetime object"""
     timestamp = None
-    if options_dict[time_key] is not None and options_dict[time_key] != '':
+    if options_dict[time_key] is not None and options_dict[time_key] != "":
         time_string = options_dict[time_key].replace("Z", "+0000")
         time_format = "%Y-%m-%d"
         if "T" in time_string:
@@ -195,6 +195,20 @@ def main():
         )
 
     # Parse and check the input options and flags
+
+    separator_dict = {
+        "pipe": "|",
+        "space": " ",
+        "comma": ",",
+        "tab": "\t",
+        "newline": os.linesep,
+    }
+
+    options["separator"] = (
+        separator_dict[options["separator"]]
+        if options["separator"] in separator_dict
+        else options["separator"]
+    )
 
     # Convert before and after timestamps to datetime objects
     for timestamp in ["modified_after", "modified_before"]:
