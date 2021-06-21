@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>GRASS GIS Manual: m.crawl.thredds</title>
+<title>GRASS GIS manual: m.crawl.thredds</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link rel="stylesheet" href="grassdocs.css" type="text/css">
 </head>
@@ -10,8 +10,81 @@
 
 <a href="file:///usr/lib/grass78/docs/html/index.html"><img src="grass_logo.png" alt="GRASS logo"></a>
 <hr class="header">
+
 <h2>NAME</h2>
-<em><b>m.crawl.thredds</b></em>
+<em><b>m.crawl.thredds</b></em>  - List dataset urls from a thredds server (TDS).
+<h2>KEYWORDS</h2>
+<a href="file:///usr/lib/grass78/docs/html/temporal.html">temporal</a>, <a href="file:///usr/lib/grass78/docs/html/topic_import.html">import</a>, <a href="file:///usr/lib/grass78/docs/html/keywords.html#download">download</a>, <a href="file:///usr/lib/grass78/docs/html/keywords.html#data">data</a>, <a href="file:///usr/lib/grass78/docs/html/keywords.html#metadata">metadata</a>, <a href="file:///usr/lib/grass78/docs/html/keywords.html#netcdf">netcdf</a>, <a href="file:///usr/lib/grass78/docs/html/keywords.html#thredds">thredds</a>, <a href="file:///usr/lib/grass78/docs/html/keywords.html#opendap">opendap</a>
+<h2>SYNOPSIS</h2>
+<div id="name"><b>m.crawl.thredds</b><br></div>
+<b>m.crawl.thredds --help</b><br>
+<div id="synopsis"><b>m.crawl.thredds</b> <b>input</b>=<em>string</em>  [<b>print</b>=<em>string</em>[,<i>string</i>,...]]  <b>services</b>=<em>string</em>[,<i>string</i>,...]  [<b>filter</b>=<em>string</em>]   [<b>output</b>=<em>name</em>]   [<b>separator</b>=<em>character</em>]   [<b>modified_before</b>=<em>string</em>]   [<b>modified_after</b>=<em>string</em>]   [<b>authentication</b>=<em>File with authentication information (username and password) for thredds server</em>]   [<b>nprocs</b>=<em>Number of cores</em>]   [--<b>overwrite</b>]  [--<b>help</b>]  [--<b>verbose</b>]  [--<b>quiet</b>]  [--<b>ui</b>] 
+</div>
+
+<div id="flags">
+<h3>Flags:</h3>
+<dl>
+<dt><b>--overwrite</b></dt>
+<dd>Allow output files to overwrite existing files</dd>
+<dt><b>--help</b></dt>
+<dd>Print usage summary</dd>
+<dt><b>--verbose</b></dt>
+<dd>Verbose module output</dd>
+<dt><b>--quiet</b></dt>
+<dd>Quiet module output</dd>
+<dt><b>--ui</b></dt>
+<dd>Force launching GUI dialog</dd>
+</dl>
+</div>
+
+<div id="parameters">
+<h3>Parameters:</h3>
+<dl>
+<dt><b>input</b>=<em>string</em>&nbsp;<b>[required]</b></dt>
+<dd>URL of a catalog on a thredds server</dd>
+<dd>URL of a catalog on a thredds server</dd>
+
+<dt><b>print</b>=<em>string[,<i>string</i>,...]</em></dt>
+<dd>Additional information to print</dd>
+<dd>Options: <em>service, dataset_size</em></dd>
+
+<dt><b>services</b>=<em>string[,<i>string</i>,...]</em>&nbsp;<b>[required]</b></dt>
+<dd>Services of thredds server to crawl</dd>
+<dd>Comma separated list of services names (lower case) of thredds server to crawl, typical services are: httpserver, netcdfsubset' opendap, wms</dd>
+<dd>Default: <em>httpserver</em></dd>
+
+<dt><b>filter</b>=<em>string</em></dt>
+<dd>Regular expression for filtering dataset and catalog URLs</dd>
+<dd>Regular expression for filtering dataset and catalog URLs</dd>
+<dd>Default: <em>.*</em></dd>
+
+<dt><b>output</b>=<em>name</em></dt>
+<dd>Name of the output file (stdout if omitted)</dd>
+<dd>Default: <em>-</em></dd>
+
+<dt><b>separator</b>=<em>character</em></dt>
+<dd>Field separator</dd>
+<dd>Special characters: pipe, comma, space, tab, newline</dd>
+<dd>Default: <em>pipe</em></dd>
+
+<dt><b>modified_before</b>=<em>string</em></dt>
+<dd>Latest modification timestamp of datasets to include in the output</dd>
+<dd>ISO-formated date or timestamp (e.g. "2000-01-01T12:12:55.03456Z" or "2000-01-01")</dd>
+
+<dt><b>modified_after</b>=<em>string</em></dt>
+<dd>Earliest modification timestamp of datasets to include in the output</dd>
+<dd>ISO-formated date or timestamp (e.g. "2000-01-01T12:12:55.03456Z" or "2000-01-01")</dd>
+
+<dt><b>authentication</b>=<em>File with authentication information (username and password) for thredds server</em></dt>
+<dd>Authentication for thredds server</dd>
+<dd>Name of input file</dd>
+
+<dt><b>nprocs</b>=<em>Number of cores</em></dt>
+<dd>Number of cores to use for crawling thredds server</dd>
+<dd>Default: <em>1</em></dd>
+
+</dl>
+</div>
 <div class="toc">
 <h4 class="toc">Table of contents</h4>
 <ul class="toc">
