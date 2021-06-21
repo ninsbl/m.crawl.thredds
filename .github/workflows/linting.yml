@@ -12,10 +12,6 @@ jobs:
       matrix:
         directory:
           - .
-          - gui/wxpython
-          - python/grass
-          - scripts
-          - temporal
       fail-fast: false
 
     steps:
