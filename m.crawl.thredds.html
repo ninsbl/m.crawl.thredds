@@ -7,7 +7,8 @@ Thredds Data Servers (TDS)</a>.
 <em>m.crawl.thredds</em> crawls the catalog of a a Thredds Data Server (TDS)
 based in an <b>input</b> catalog-URL and returns a list of datasets. It is a wrapper
 module around the Python library <a href="https://github.com/ioos/thredds_crawler">
-thredds_crawler</a>.
+thredds_crawler</a>. Depending on the format of the crawled datasets, the output
+of <em>m.crawl.thredds</em> can be used as input to <em>t.rast.import.netcdf</em>.
 
 <p>
 The returned list of datasets can be filtered
@@ -27,7 +28,6 @@ Alternatively, username and password can be passed through environment variables
 The Thredds data catalog is crawled recursively. Providing the URL to the
 root of a catalog on a Thredds server with many hirarchies and datasets can
 therefore be quite time consuming, even if executed in parallel (<b>nprocs</b> > 1).
-It may also be
 
 <h2>EXAMPLES</h2>
 List modelled climate observation datasets from the Norwegian Meteorological Institute (met.no)
