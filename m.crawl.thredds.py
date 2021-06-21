@@ -19,7 +19,7 @@
 ############################################################################
 
 #%module
-#% description: List dataset urls from a thredds server (TDS).
+#% description: List dataset urls from a Thredds Data Server (TDS) catalog.
 #% keyword: temporal
 #% keyword: import
 #% keyword: download
@@ -32,7 +32,6 @@
 
 #%option
 #% key: input
-#% label: URL of a catalog on a thredds server
 #% description: URL of a catalog on a thredds server
 #% type: string
 #% required: yes
@@ -51,7 +50,7 @@
 #%option
 #% key: services
 #% label: Services of thredds server to crawl
-#% description: Comma separated list of services names (lower case) of thredds server to crawl, typical services are: httpserver, netcdfsubset' opendap, wms
+#% description: Comma separated list of services names (lower case) of thredds server to crawl, typical services are: httpserver, netcdfsubset, opendap, wms
 #% type: string
 #% required: yes
 #% multiple: yes
@@ -60,7 +59,6 @@
 
 #%option
 #% key: filter
-#% label: Regular expression for filtering dataset and catalog URLs
 #% description: Regular expression for filtering dataset and catalog URLs
 #% type: string
 #% required: no
@@ -102,7 +100,7 @@
 #% key: authentication
 #% required: no
 #% multiple: no
-#% key_desc: File with authentication information (username and password) for thredds server
+#% description: File with authentication information (username and password) for thredds server
 #% label: Authentication for thredds server
 #%end
 
@@ -137,7 +135,7 @@ def get_authentication(authentication_input):
             os.environ.get("THREDDS_PASSWORD"),
         )
 
-    if authentication_input is not None and authentication_input != "":
+    if authentication_input is not None and authentication_input != '':
 
         if authentication_input == "-":
             # stdin
@@ -158,19 +156,8 @@ def get_authentication(authentication_input):
 
 def parse_isotime(options_dict, time_key):
     """Parse user provided timestamp string into datetime object"""
-    # lazy import thredds_crawler
-    try:
-        from thredds_crawler.crawl import Crawl
-    except ImportError:
-        gscript.fatal(
-            _(
-                "Unable to import Python library: thredds_crawler.\n"
-                "Please make sure it is installed (pip install thredds_crawler).",
-            )
-        )
-
     timestamp = None
-    if options_dict[time_key] is not None and options_dict[time_key] != "":
+    if options_dict[time_key] is not None and options_dict[time_key] != '':
         time_string = options_dict[time_key].replace("Z", "+0000")
         time_format = "%Y-%m-%d"
         if "T" in time_string:
@@ -195,6 +182,17 @@ def parse_isotime(options_dict, time_key):
 
 def main():
     """Do the main work"""
+
+    # lazy import thredds_crawler
+    try:
+        from thredds_crawler.crawl import Crawl
+    except ImportError:
+        gscript.fatal(
+            _(
+                "Unable to import Python library: thredds_crawler.\n"
+                "Please make sure it is installed (pip install thredds_crawler).",
+            )
+        )
 
     # Parse and check the input options and flags
 
