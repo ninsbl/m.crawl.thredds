@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 ############################################################################
 #
 # MODULE:       m.crawl.thredds
@@ -118,6 +118,7 @@
 #%end
 
 import os
+import re
 import sys
 from datetime import datetime
 import grass.script as gscript
@@ -136,7 +137,7 @@ def get_authentication(authentication_input):
             os.environ.get("THREDDS_PASSWORD"),
         )
 
-    if authentication_input is not None:
+    if authentication_input is not None and authentication_input != '':
 
         if authentication_input == "-":
             # stdin
@@ -158,15 +159,16 @@ def get_authentication(authentication_input):
 def parse_isotime(options_dict, time_key):
     """Parse user provided timestamp string into datetime object"""
     timestamp = None
-    if options_dict[time_key] is not None:
+    if options_dict[time_key] is not None and options_dict[time_key] != '':
         time_string = options_dict[time_key].replace("Z", "+0000")
         time_format = "%Y-%m-%d"
         if "T" in time_string:
             time_format += "T%H:%M:%S"
         if "." in time_string:
             time_format += ".%f"
-        if "+" in time_string or "-" in time_string:
-            time_format += "%z"
+        if re.match(".*(\+|\-)[0-9][0-9][0-9][0-9]$", time_string) is None:
+            time_string += "+0000"
+        time_format += "%z"
         try:
             timestamp = datetime.strptime(time_string, time_format)
         except ValueError:
