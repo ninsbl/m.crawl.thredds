@@ -1,28 +1,46 @@
-name: Code quality check
+name: General linting
 
-on: [push]
+on:
+  - push
+  - pull_request
 
 jobs:
-  lint:
+  super-linter:
+    name: GitHub Super Linter
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Install apt dependencies
-      run: |
-        sudo apt-get update -qq
-        sudo apt-get install -y -qq python-pip
-    - name: Add the bin directory pip uses for executables on PATH
-      run: |
-        echo "::add-path::/home/runner/.local/bin"
-    - name: Install pip dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8 pylint
-    - name: Lint with Flake8
-      run: |
-        flake8 --ignore=E265,F821,E501,W503,E203 --max-line-length=88 --count --statistics --show-source .
-    - name: Lint with Pylint
-      run: |
-        pylint --disable=R,bad-continuation,fixme,import-error --additional-builtins=_ --reports=n --score=n -j0 ${{ github.event.repository.name }}.py
+      - uses: actions/checkout@v2
+      - name: Lint code base
+        uses: docker://github/super-linter:v2.2.2
+        env:
+          # Listed but disabled linters would be nice to have.
+          # Python (supported using Pylint) and C/C++ (not supported) are
+          # handled separately due to the complexity of the settings.
+          # (The rest is simply disabled automatically as of v2.)
+          VALIDATE_BASH: false
+          VALIDATE_CSS: false
+          VALIDATE_DOCKER: false
+          VALIDATE_JAVASCRIPT_ES: true
+          VALIDATE_JAVASCRIPT_STANDARD: false
+          VALIDATE_JSON: true
+          VALIDATE_MD: false
+          VALIDATE_PERL: true
+          VALIDATE_POWERSHELL: true
+          VALIDATE_XML: true
+          VALIDATE_YAML: true
+
+    © 2021 GitHub, Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Docs
+
+    Contact GitHub
+    Pricing
+    API
+    Training
+    Blog
+    About
