@@ -9,7 +9,7 @@
 
 ## Manual
 
-Manual of the module are available here:
+Manual of the module is available here:
 https://ninsbl.github.io/m.crawl.thredds/
 
 ## How to contribute to this repository
