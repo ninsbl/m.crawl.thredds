@@ -3,128 +3,95 @@
 """
 MODULE:    Test of  m.crawl.thredds
 
-AUTHOR(S): Vaclav Petras <wenzeslaus gmail com>
+AUTHOR(S): Stefan Blumentrath <stefan.blumentrath at nina.no>
 
-PURPOSE:   Test of  m.crawl.thredds (example of a simple test of a module)
+PURPOSE:   Test of  m.crawl.thredds examples
 
-COPYRIGHT: (C) 2020 by Vaclav Petras and the GRASS Development Team
+COPYRIGHT: (C) 2021 by Stefan Blumentrath and the GRASS Development Team
 
 This program is free software under the GNU General Public
 License (>=v2). Read the file COPYING that comes with GRASS
 for details.
 """
 
-import grass.script as gs
+import grass.script as gscript
 
 from grass.gunittest.case import TestCase
 from grass.gunittest.main import test
 
 
-def get_raster_min_max(raster_map):
-    info = gs.raster_info(raster_map)
-    return info["min"], info["max"]
+class TestThreddsCrawling(TestCase):
+    """The main (and only) test case for the m.crawl.thredds module"""
 
-
-class TestWatershed(TestCase):
-    """The main (and only) test case for the  m.crawl.thredds module"""
-
-    # Raster maps be used as inputs (they exist in the NC SPM sample location)
-    test_input_1 = "elevation"
-    test_input_2 = "zipcodes"
-    # Raster map name be used as output
-    output = "plus_result"
+    # Input URLs to avaiable Thredds Data Serves
+    thredds_seNorge = "https://thredds.met.no/thredds/catalog/senorge/seNorge_2018/Archive/catalog.xml"
+    # thredds_NBS = "https://nbstds.met.no/thredds/catalog/NBS/S2A/2021/02/28/catalog.xml"
+    # Output file
+    output = "seNorge_result"
 
     @classmethod
     def setUpClass(cls):
-        """Ensures expected computational region (and anything else needed)
-
-        These are things needed by all test function but not modified by
-        any of them.
-        """
-        # We will use specific computational region for our process in case
-        # something else is running in parallel with our tests.
-        cls.use_temp_region()
-        # Use of of the inputs to set computational region
-        cls.runModule("g.region", raster=cls.test_input_1)
+        """Not needed for the module"""
+        pass
 
     @classmethod
     def tearDownClass(cls):
-        """Remove the temporary region (and anything else we created)"""
-        cls.del_temp_region()
+        """Not needed for the module"""
+        pass
 
     def tearDown(self):
-        """Remove the output created from the module
-
-        This is executed after each test function run. If we had
-        something to set up before each test function run, we would use setUp()
-        function.
-
-        Since we remove the raster map after running each test function,
-        we can reuse the same name for all the test functions.
-        """
-        self.runModule("g.remove", flags="f", type="raster", name=[self.output])
+        """Remove the output created from the module"""
+        gscript.utils.try_remove(self.output)
 
     def test_output_created(self):
         """Check that the output is created"""
-        # run the watershed module
+        # run the module
         self.assertModule(
-            " m.crawl.thredds",
-            a_input=self.test_input_1,
-            b_input=self.test_input_2,
+            "m.crawl.thredds",
+            input=self.thredds_seNorge,
             output=self.output,
         )
         # check to see if output is in mapset
-        self.assertRasterExists(self.output, msg="Output was not created")
+        self.assertFileExists(self.output, msg="Output was not created")
+
+    def test_output_created_parameters(self):
+        """Check that the output is created"""
+        # run the module
+        self.assertModule(
+            "m.crawl.thredds",
+            input=self.thredds_seNorge,
+            output=self.output,
+            nprocs=2,
+            modified_before="2021-06-01T00:00:00.0000Z",
+            modified_after="2021-02-01",
+            print=["service", "dataset_size"],
+            services="wms,httpserver,opendap",
+        )
+        # check to see if output is in mapset
+        self.assertFileExists(self.output, msg="Output was not created")
 
     def test_missing_parameter(self):
-        """Check that the module fails when parameters are missing
-
-        Checks absence of each of the three parameters. Each parameter absence
-        is tested separatelly.
-
-        Note that this does not cover all the possible combinations, but it
-        tries to simulate most of possible user errors and it should cover
-        most of the implementation.
-        """
+        """Check that the module fails when parameters are missing or invalid"""
         self.assertModuleFail(
-            " m.crawl.thredds",
-            b_input=self.test_input_2,
+            "m.crawl.thredds",
+            input=self.thredds_seNorge,
             output=self.output,
-            msg="The a_input parameter should be required",
+            nprocs=2,
+            modified_before="2021-01-01T00:00:00.0000Z",
+            modified_after="2021-02-01",
+            print=["service", "dataset_size"],
+            services="nonexistingservice",
+            msg="Only services provided by the server are valid.",
         )
         self.assertModuleFail(
-            " m.crawl.thredds",
-            a_input=self.test_input_1,
+            "m.crawl.thredds",
+            input=self.thredds_seNorge,
             output=self.output,
-            msg="The b_input parameter should be required",
-        )
-        self.assertModuleFail(
-            " m.crawl.thredds",
-            a_input=self.test_input_1,
-            b_input=self.test_input_2,
-            msg="The output parameter should be required",
-        )
-
-    def test_output_range(self):
-        """Check to see if output is within the expected range"""
-        self.assertModule(
-            " m.crawl.thredds",
-            a_input=self.test_input_1,
-            b_input=self.test_input_2,
-            output=self.output,
-        )
-
-        min_1, max_1 = get_raster_min_max(self.test_input_1)
-        min_2, max_2 = get_raster_min_max(self.test_input_2)
-
-        reference_min = min_1 + min_2
-        reference_max = max_1 + max_2
-
-        self.assertRasterMinMax(
-            self.output,
-            reference_min,
-            reference_max,
-            msg="Output exceeds the values computed from inputs",
+            nprocs=2,
+            modified_before="2021-02-01",
+            modified_after="2021-02-02",
+            print=["service", "dataset_size"],
+            msg="modified_after should be before modified_before.",
         )
 
 
