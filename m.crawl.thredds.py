@@ -247,61 +247,81 @@ def main():
             gscript.fatal(_("Unable to write to file <{}>.".format(options["output"])))
 
     # Get datasets from thredds server, traversing it recursively
-    catalog = Crawl(
-        options["input"],
-        before=options["modified_before"],
-        after=options["modified_after"],
-        select=[options["filter"]],
-        workers=int(options["nprocs"]),
-        auth=authentication,
-    )
-
-    # List services
-    services = {
-        service.get("service").lower()
-        for dataset in catalog.datasets
-        for service in dataset.services
-    }
-
-    # Check if ANY requested service is provided by the server
-    if options["services"].isdisjoint(services):
+    try:
+        catalog = Crawl(
+            options["input"],
+            before=options["modified_before"],
+            after=options["modified_after"],
+            select=[options["filter"]],
+            workers=int(options["nprocs"]),
+            auth=authentication,
+        )
+    except ValueError:
         gscript.fatal(
             _(
-                "The thredds server does not offer the requested service(s) <{}>.".format(
-                    ",".join(options["services"])
-                )
+                "Unable to crawl <{url}> with the given input.\n"
+                "Please check provided options.".format(url=options["input"])
             )
         )
 
-    # Check if ALL requested services are provided by the server for at least one dataset
-    for service in options["services"]:
-        if service not in services:
-            options["services"].remove(service)
-            gscript.warning(
+    if len(catalog.datasets) == 0:
+        gscript.warning(
+            _(
+                "No datasets returned from server <{url}> with the given input.\n"
+                "Please check provided options.".format(url=options["input"])
+            )
+        )
+        dataset_urls = [
+            options["separator"]
+            * ("service" in options["print"] + "data_size" in options["print"])
+        ]
+    else:
+        # List services
+        services = {
+            service.get("service").lower()
+            for dataset in catalog.datasets
+            for service in dataset.services
+        }
+
+        # Check if ANY requested service is provided by the server
+        if options["services"].isdisjoint(services):
+            gscript.fatal(
                 _(
-                    "The thredds server does not offer the requested service <{}>.".format(
-                        service
+                    "The thredds server does not offer the requested service(s) <{}>.".format(
+                        ",".join(options["services"])
                     )
                 )
             )
 
-    # Get dataset information as a list of strings
-    dataset_urls = [
-        "".join(
-            [
-                service.get("service").lower() + options["separator"]
-                if "service" in options["print"]
-                else "",
-                service.get("url"),
-                options["separator"] + str(dataset.size)
-                if "data_size" in options["print"]
-                else "",
-            ]
-        )
-        for dataset in catalog.datasets
-        for service in dataset.services
-        if service.get("service").lower() in options["services"]
-    ]
+        # Check if ALL requested services are provided by the server for at least one dataset
+        for service in options["services"]:
+            if service not in services:
+                options["services"].remove(service)
+                gscript.warning(
+                    _(
+                        "The thredds server does not offer the requested service <{}>.".format(
+                            service
+                        )
+                    )
+                )
+
+        # Get dataset information as a list of strings
+        dataset_urls = [
+            "".join(
+                [
+                    service.get("service").lower() + options["separator"]
+                    if "service" in options["print"]
+                    else "",
+                    service.get("url"),
+                    options["separator"] + str(dataset.size)
+                    if "data_size" in options["print"]
+                    else "",
+                ]
+            )
+            for dataset in catalog.datasets
+            for service in dataset.services
+            if service.get("service").lower() in options["services"]
+        ]
 
     # Return resulting list of datasets
     if options["output"]:
