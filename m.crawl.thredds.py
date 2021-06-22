@@ -164,7 +164,7 @@ def parse_isotime(options_dict, time_key):
             time_format += "T%H:%M:%S"
         if "." in time_string:
             time_format += ".%f"
-        if re.match(".*(\+|\-)[0-9][0-9][0-9][0-9]$", time_string) is None:
+        if re.match(r".*(\+|\-)[0-9][0-9][0-9][0-9]$", time_string) is None:
             time_string += "+0000"
         time_format += "%z"
         try:
