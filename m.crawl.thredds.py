@@ -66,6 +66,14 @@
 #% answer: .*
 #%end
 
+#%option
+#% key: skip
+#% description: Regular expression(s) for skipping sub-catalogs / URLs (e.g. ".*jpeg.*,.*metadata.*)"
+#% type: string
+#% required: no
+#% multiple: yes
+#%end
+
 #%option G_OPT_F_OUTPUT
 #% required: no
 #% multiple: no
@@ -246,6 +254,10 @@ def main():
         except OSError:
             gscript.fatal(_("Unable to write to file <{}>.".format(options["output"])))
 
+    # Parse list of regular expressions for skipping parts of the catalog
+    if options["skip"]:
+        options["skip"] = options["skip"].split(",")
+
     # Get datasets from thredds server, traversing it recursively
     try:
         catalog = Crawl(
@@ -253,6 +265,7 @@ def main():
             before=options["modified_before"],
             after=options["modified_after"],
             select=[options["filter"]],
+            skip=[options["skip"]],
             workers=int(options["nprocs"]),
             auth=authentication,
         )
