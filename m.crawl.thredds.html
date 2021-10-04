@@ -18,7 +18,7 @@
 <h2>SYNOPSIS</h2>
 <div id="name"><b>m.crawl.thredds</b><br></div>
 <b>m.crawl.thredds --help</b><br>
-<div id="synopsis"><b>m.crawl.thredds</b> <b>input</b>=<em>string</em>  [<b>print</b>=<em>string</em>[,<i>string</i>,...]]  <b>services</b>=<em>string</em>[,<i>string</i>,...]  [<b>filter</b>=<em>string</em>]   [<b>output</b>=<em>name</em>]   [<b>separator</b>=<em>character</em>]   [<b>modified_before</b>=<em>string</em>]   [<b>modified_after</b>=<em>string</em>]   [<b>authentication</b>=<em>name</em>]   [<b>nprocs</b>=<em>Number of cores</em>]   [--<b>overwrite</b>]  [--<b>help</b>]  [--<b>verbose</b>]  [--<b>quiet</b>]  [--<b>ui</b>] 
+<div id="synopsis"><b>m.crawl.thredds</b> <b>input</b>=<em>string</em>  [<b>print</b>=<em>string</em>[,<i>string</i>,...]]  <b>services</b>=<em>string</em>[,<i>string</i>,...]  [<b>filter</b>=<em>string</em>]   [<b>skip</b>=<em>string</em>[,<i>string</i>,...]]   [<b>output</b>=<em>name</em>]   [<b>separator</b>=<em>character</em>]   [<b>modified_before</b>=<em>string</em>]   [<b>modified_after</b>=<em>string</em>]   [<b>authentication</b>=<em>name</em>]   [<b>nprocs</b>=<em>Number of cores</em>]   [--<b>overwrite</b>]  [--<b>help</b>]  [--<b>verbose</b>]  [--<b>quiet</b>]  [--<b>ui</b>] 
 </div>
 
 <div id="flags">
@@ -55,6 +55,9 @@
 <dt><b>filter</b>=<em>string</em></dt>
 <dd>Regular expression for filtering dataset and catalog URLs</dd>
 <dd>Default: <em>.*</em></dd>
+
+<dt><b>skip</b>=<em>string[,<i>string</i>,...]</em></dt>
+<dd>Regular expression(s) for skipping sub-catalogs / URLs (e.g. ".*jpeg.*,.*metadata.*)"</dd>
 
 <dt><b>output</b>=<em>name</em></dt>
 <dd>Name of the output file (stdout if omitted)</dd>
