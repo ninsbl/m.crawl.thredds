@@ -118,6 +118,14 @@ The returned list of datasets can be filtered:
 timestamps defined by the <b>modified_before</b> and <b>modified_after</b> option(s)</li>
   <li>based on the file name using a regular expression in the <b>filter</b> option.</li>
 </ul>
+
+<p>
+When crawling larger Thredds installations, skipping irrelevant branches of the server`s 
+tree of datasets can greatly speed-up the process. In the <b>skip</b> option, branches 
+(and also leaf datasets) can be excluded from the search by a comma-separated list of 
+regular expression strings, e.g. ".*metadata.*" would direct the module to not look for 
+datasets inside a "metadata" directory.
+
 <p>
 Authentication to the Thredds Server (if required) can be provided either through
 a text-file, where the first line contains the username and the second the password,
