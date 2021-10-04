@@ -257,6 +257,7 @@ def main():
     # Parse list of regular expressions for skipping parts of the catalog
     if options["skip"]:
         options["skip"] = Crawl.SKIPS + options["skip"].split(",")
+        print(options["skip"])
 
     # Get datasets from thredds server, traversing it recursively
     try:
@@ -265,7 +266,7 @@ def main():
             before=options["modified_before"],
             after=options["modified_after"],
             select=[options["filter"]],
-            skip=[options["skip"]],
+            skip=options["skip"],
             workers=int(options["nprocs"]),
             auth=authentication,
         )
