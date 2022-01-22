@@ -23,7 +23,7 @@ from grass.gunittest.main import test
 class TestThreddsCrawling(TestCase):
     """The main (and only) test case for the m.crawl.thredds module"""
 
-    # Input URLs to avaiable Thredds Data Serves
+    # Input URLs to available Thredds Data Serves
     thredds_seNorge = "https://thredds.met.no/thredds/catalog/senorge/seNorge_2018/Archive/catalog.xml"
     # thredds_NBS = "https://nbstds.met.no/thredds/catalog/NBS/S2A/2021/02/28/catalog.xml"
     # Output file
