@@ -62,7 +62,7 @@ class TestThreddsCrawling(TestCase):
             input=self.thredds_seNorge,
             output=self.output,
             nprocs=2,
-            modified_before="2021-06-01T00:00:00.0000Z",
+            #modified_before="2021-06-01T00:00:00.0000Z",
             modified_after="2021-02-01",
             print=["service", "dataset_size"],
             services="wms,httpserver,opendap",
