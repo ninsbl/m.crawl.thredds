@@ -21,10 +21,10 @@ timestamps defined by the <b>modified_before</b> and <b>modified_after</b> optio
 </ul>
 
 <p>
-When crawling larger Thredds installations, skipping irrelevant branches of the server`s 
-tree of datasets can greatly speed-up the process. In the <b>skip</b> option, branches 
-(and also leaf datasets) can be excluded from the search by a comma-separated list of 
-regular expression strings, e.g. ".*metadata.*" would direct the module to not look for 
+When crawling larger Thredds installations, skipping irrelevant branches of the server`s
+tree of datasets can greatly speed-up the process. In the <b>skip</b> option, branches
+(and also leaf datasets) can be excluded from the search by a comma-separated list of
+regular expression strings, e.g. ".*metadata.*" would direct the module to not look for
 datasets inside a "metadata" directory.
 
 <p>
@@ -79,12 +79,14 @@ https://nbstds.met.no/thredds/wms/NBS/S2A/2021/02/28/S2A_MSIL1C_20210228T103021_
 </pre></div>
 
 <h2>REQUIREMENTS</h2>
-<a href="https://github.com/ioos/thredds_crawler">thredds_crawler</a>
+<em>m.crawl.thredds</em> is a wrapper around the
+<a href="https://github.com/ioos/thredds_crawler">thredds_crawler</a> Python
+library.
 
 <h2>SEE ALSO</h2>
 <em>
-<a href="i.sentinel.download.html">i.sentinel.download</a>,
-<a href="t.rast.import.netcdf.html">t.rast.import.netcdf</a>
+<a href="https://grass.osgeo.org/grass-stable/manuals/addons/i.sentinel.download.html">i.sentinel.download</a>,
+<a href="https://grass.osgeo.org/grass-stable/manuals/addons/t.rast.import.netcdf.html">t.rast.import.netcdf</a>
 </em>
 
 <h2>AUTHORS</h2>
